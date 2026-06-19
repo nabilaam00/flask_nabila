@@ -28,11 +28,11 @@ def predict():
         'DiabetesPedigreeFunction': float(request.form['diabetes_pedigree']),
         'Age': int(request.form['age'])
     }
-    df = pd.DataFrame(data, index=[0])
-    X = scaler.transform(df)
+    X = [list(data.values())] 
+    X_scaled = scaler.transform(X)
 
     clf = model[ model_names.index(request.form['model']) ]
-    y = clf.predict(X)
+    y = clf.predict(X_scaled)
     prediction = 'Diabetic' if int(y[0]) == 1 else 'Non-Diabetic'
 
     return render_template('index.html', model_names=model_names, prediction=prediction)
